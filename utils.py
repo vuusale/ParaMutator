@@ -76,18 +76,19 @@ def list_file_handler(file_path):
     return reqs
 
 def identify_datatype(value):
-    try:
-        float(value)
-        return 'float'
-    except:
-        if isinstance(value, dict):
-            return "dict"
-        elif isinstance(value, list):
-            return 'list'
-        elif value.isdigit():
-            return "int"
-        else:
-            return "str"
+    if isinstance(value, dict):
+        return "dict"
+    elif isinstance(value, list):
+        return 'list'
+    else:
+        try:
+            float(value)
+            if value.isdigit():
+                return "int"
+            else:
+                return 'float'
+        except:
+            return "other"
 
 def identify_contenttype(value):
     try:
