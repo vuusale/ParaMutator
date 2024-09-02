@@ -27,7 +27,7 @@ modifiers = [
     {"value": """<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo [<!ENTITY test "HACKED"> ]><root><tag>&test;</tag></root>""", "param": "{}"}, # xxe payload
 ]
 
-proxies = {"http":"http://127.0.0.1", "https":"http://127.0.0.1:8080"}
+proxies = {"http":"http://127.0.0.1:8080", "https":"http://127.0.0.1:8080"}
 
 class RequestHandler:
     """Handles requests with modifications for testing"""
