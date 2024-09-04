@@ -47,7 +47,7 @@ class RequestHandler:
             return
 
         if isinstance(original_part, xml.etree.ElementTree.Element):
-            self.xml_handler(original_part)
+            self.xml_handler(original_part, part_to_modify)
 
         else:
             self.json_handler(original_part, part_to_modify)
@@ -71,7 +71,7 @@ class RequestHandler:
                         print(f"Before:\t{tag} {attribute} = {value}")
                         child.attrib[attribute] = modifier["value"].format(value) if isinstance(modifier["value"], str) else str(modifier["value"])
                         print(f"Now:\t{tag} {attribute} = {child.attrib[attribute]}")
-                        self.body = xml.etree.ElementTree.tostring(original_part)
+                        setattr(self, part_to_modify, xml.etree.ElementTree.tostring(original_part))
                         self.send_request()
                         child.attrib[attribute] = value
 
@@ -110,7 +110,6 @@ class RequestHandler:
                 setattr(self, part_to_modify, modified_parameter)
                 print(f"[+] Before: {original_part}.\n[+] Now: {getattr(self, part_to_modify)}")
                 self.send_request()
-                setattr(self, part_to_modify, backup_part)
 
     def send_request(self):
         """Sends the HTTP request with the modified parameters"""
